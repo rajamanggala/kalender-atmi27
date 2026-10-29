@@ -1,0 +1,129 @@
+:root {
+  --navy-0: #030f2b;
+  --navy-1: #041a42;
+  --navy-2: #07397a;
+  --blue-dark: #0A4F9D;
+  --blue-soft: #1A69B8;
+  --text: #fff;
+  --muted: rgba(255,255,255,.7);
+  --hair: rgba(255,255,255,.22);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; overflow: hidden; }
+body {
+  color: var(--text); font-family: "Figtree", system-ui, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 40%, var(--blue-dark) 0%, var(--navy-2) 36%, var(--navy-1) 72%, var(--navy-0) 100%);
+}
+button, a { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.stage { position: fixed; inset: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+.stage.zoomed { cursor: grab; }
+.stage.grab { cursor: grabbing; }
+canvas {
+  position: absolute; left: 50%; top: 50%; display: block; background: #fff; max-width: none;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.18), 0 40px 90px rgba(1,8,28,.7);
+  transition: opacity .25s;
+}
+.status { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); letter-spacing: .08em; font-size: 14px; }
+.status:empty { display: none; }
+
+.ui { transition: opacity .5s; }
+body.idle .ui { opacity: 0; pointer-events: none; }
+
+.top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 24px 28px; background: linear-gradient(to bottom, rgba(3,15,43,.85), rgba(3,15,43,0));
+}
+.brand { display: flex; align-items: center; gap: 12px; flex: 1; }
+.brand img { height: 40px; width: 40px; object-fit: contain; background: #fff; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,.2); }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: 20px; letter-spacing: .1em; text-transform: uppercase; }
+.brand-sub { font-size: 12px; letter-spacing: .16em; color: var(--muted); margin-top: 3px; }
+
+.tabs { display: flex; gap: 26px; }
+.tabs button { background: none; border: 0; padding: 6px 0; font-size: 14px; letter-spacing: .06em; color: var(--muted); cursor: pointer; border-bottom: 1px solid transparent; }
+.tabs button:hover { color: var(--text); }
+.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: #fff; }
+
+.actions { display: flex; gap: 10px; flex: 1; justify-content: flex-end; }
+.btn { text-decoration: none; font-size: 13px; letter-spacing: .05em; padding: 8px 18px; border: 1px solid var(--hair); border-radius: 999px; cursor: pointer; transition: background .2s, border-color .2s; }
+.btn:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+.btn-solid { background: var(--blue-soft); border-color: rgba(255,255,255,.55); }
+.btn-solid:hover { background: #2a7fd0; }
+
+.nav {
+  position: fixed; top: 50%; transform: translateY(-50%); z-index: 5;
+  width: 56px; height: 96px; border: 0; background: none; cursor: pointer;
+  font-size: 56px; font-weight: 300; line-height: 1; color: rgba(255,255,255,.55); padding-bottom: 8px;
+  text-shadow: 0 2px 14px rgba(1,8,28,.6);
+}
+.nav:hover { color: #fff; }
+.nav:disabled { opacity: .15; cursor: default; }
+.nav-prev { left: 10px; } .nav-next { right: 10px; }
+
+.dock {
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 5;
+  display: flex; align-items: center; gap: 14px; padding: 8px 20px; white-space: nowrap;
+  background: rgba(3,15,43,.55); border: 1px solid var(--hair); border-radius: 999px;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+}
+.dock button { background: none; border: 0; cursor: pointer; font-size: 13px; letter-spacing: .05em; color: var(--muted); padding: 4px 6px; }
+.dock button:hover { color: #fff; }
+.dock #zoomIn, .dock #zoomOut { font-size: 20px; line-height: 1; padding: 0 6px; }
+.pager { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; letter-spacing: .12em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pager b { color: #fff; font-weight: 600; font-size: 21px; }
+.zoomval { min-width: 42px; text-align: center; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sep { width: 1px; height: 16px; background: var(--hair); }
+
+@media (max-width: 760px) {
+  .top { flex-wrap: wrap; padding: 10px 12px 20px; gap: 8px; }
+  .brand { flex: 0 0 100%; }
+  .brand-name { font-size: 15px; }
+  .tabs { gap: 16px; } .actions { flex: none; }
+  .btn { padding: 6px 12px; }
+  .nav { width: 40px; font-size: 40px; } .nav-prev { left: 2px; } .nav-next { right: 2px; }
+  #full { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* ===== HP & layar kecil ===== */
+button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.mob { display: none; }
+@media (hover: none) { body.idle .ui { opacity: 1; pointer-events: auto; } }  /* di layar sentuh kontrol tidak menghilang */
+
+@media (max-width: 760px), (max-height: 520px) {
+  .mob { display: inline-flex; align-items: center; justify-content: center; }
+  .nav, .zoomval, #full { display: none; }
+
+  .top { flex-wrap: wrap; justify-content: center; gap: 4px; padding: calc(10px + env(safe-area-inset-top)) 14px 22px; }
+  .brand { flex: 0 0 100%; gap: 10px; }
+  .brand img { height: 34px; width: 34px; }
+  .brand-name { font-size: 13px; letter-spacing: .06em; }
+  .brand-sub { display: none; }
+  .tabs { flex: 0 0 100%; justify-content: center; gap: 30px; }
+  .tabs button { font-size: 14px; padding: 4px 0; text-transform: capitalize; }
+  .tabs .long { display: none; }
+
+  .actions { display: none; }
+  body.menu-open .actions {
+    display: flex; flex-direction: column; gap: 8px; flex: none;
+    position: fixed; left: 12px; right: 12px; bottom: calc(80px + env(safe-area-inset-bottom)); z-index: 8;
+    padding: 12px; border-radius: 18px; background: rgba(3,15,43,.95); border: 1px solid var(--hair);
+  }
+  body.menu-open .actions .btn { text-align: center; padding: 12px; font-size: 14px; }
+
+  .dock { gap: 4px; padding: 5px 10px; bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .dock button { min-width: 42px; height: 42px; padding: 0; font-size: 26px; line-height: 1; }
+  .dock #zoomIn, .dock #zoomOut { font-size: 24px; padding: 0; }
+  .dock #more { font-size: 24px; }
+  .dock button:disabled { opacity: .25; }
+  .pager { min-width: 76px; text-align: center; }
+}
+@media (max-height: 520px) {   /* HP posisi landscape: satu baris saja */
+  .brand { flex: none; } .brand-text { display: none; }
+  .top { flex-wrap: nowrap; justify-content: space-between; padding: calc(8px + env(safe-area-inset-top)) 14px 16px; }
+  .tabs { flex: none; }
+}

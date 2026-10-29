@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preview Kalender ATMI 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="status" id="status">Memuat kalender…</div>
+  <canvas id="canvas" aria-label="Halaman kalender"></canvas>
+</main>
+
+<header class="ui top" id="top">
+  <div class="brand">
+    <img src="logo_yayasan.png" alt="Logo Yayasan Karya Bakti Surakarta">
+    <div class="brand-text">
+      <span class="brand-name">Yayasan Karya Bakti Surakarta</span>
+      <span class="brand-sub">Kalender ATMI 2027</span>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Pilih kalender">
+    <button role="tab" data-doc="dinding" aria-selected="true"><span class="long">Kalender </span>dinding</button>
+    <button role="tab" data-doc="duduk" aria-selected="false"><span class="long">Kalender </span>duduk</button>
+  </nav>
+  <div class="actions">
+    <a class="btn" id="dlPdf" href="#" download>Unduh PDF</a>
+    <a class="btn btn-solid" id="dlDrive" href="#" target="_blank" rel="noopener">PDF asli &amp; CorelDRAW</a>
+  </div>
+</header>
+
+<button class="ui nav nav-prev" id="prev" aria-label="Halaman sebelumnya">‹</button>
+<button class="ui nav nav-next" id="next" aria-label="Halaman berikutnya">›</button>
+
+<footer class="ui dock" id="dock">
+  <button class="mob" id="dPrev" aria-label="Halaman sebelumnya">‹</button>
+  <span class="pager"><b id="pageNow">01</b> / <span id="pageAll">–</span></span>
+  <button class="mob" id="dNext" aria-label="Halaman berikutnya">›</button>
+  <i class="sep"></i>
+  <button id="zoomOut" aria-label="Perkecil">−</button>
+  <span class="zoomval" id="zoomVal">100%</span>
+  <button id="zoomIn" aria-label="Perbesar">+</button>
+  <i class="sep"></i>
+  <button id="full">Layar penuh</button>
+  <button class="mob" id="more" aria-label="Unduh dan menu">⋯</button>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
